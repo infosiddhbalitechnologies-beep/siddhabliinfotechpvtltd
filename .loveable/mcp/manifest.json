@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "sdk_version": "0.23.0",
+  "path": "/mcp",
+  "auth": {
+    "type": "none"
+  },
+  "mcp": {
+    "server": {
+      "name": "siddhbali-mcp",
+      "version": "0.1.0",
+      "title": "SIDDHBALI TECHNOLOGIES"
+    },
+    "tools": [
+      {
+        "name": "get_company_info",
+        "title": "Get SIDDHBALI company info",
+        "description": "Return an overview of SIDDHBALI TECHNOLOGIES: focus areas, tagline, and the main website sections.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "type": "object",
+          "properties": {}
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "submit_ticket",
+        "title": "Submit a ticket to SIDDHBALI",
+        "description": "Create a support ticket in SIDDHBALI's system. Use type 'contact' for a general contact-us message, 'career' for a job application/career inquiry, or 'enquiry' for a business/partnership enquiry. Returns the generated ticket number.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "contact",
+                "career",
+                "enquiry"
+              ],
+              "description": "Ticket type."
+            },
+            "subject": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 200,
+              "description": "Short subject line."
+            },
+            "message": {
+              "type": "string",
+              "minLength": 5,
+              "maxLength": 5000,
+              "description": "Full message / details."
+            },
+            "contact_name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120,
+              "description": "Submitter's full name."
+            },
+            "contact_email": {
+              "type": "string",
+              "format": "email",
+              "maxLength": 200,
+              "description": "Submitter's email (used to track the ticket)."
+            },
+            "contact_phone": {
+              "type": "string",
+              "maxLength": 40,
+              "description": "Optional phone number."
+            },
+            "company": {
+              "type": "string",
+              "maxLength": 150,
+              "description": "Optional company name."
+            }
+          },
+          "required": [
+            "type",
+            "subject",
+            "message",
+            "contact_name",
+            "contact_email"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "track_ticket",
+        "title": "Track a ticket",
+        "description": "Look up an SIDDHBALI ticket by its ticket number and the submitter's email. Returns the ticket status, subject, and any public reply thread. Matches the public /track flow — the caller must know both the ticket number and the email that submitted it.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "ticket_number": {
+              "type": "string",
+              "minLength": 3,
+              "maxLength": 50,
+              "description": "Ticket number, e.g. SIDDH-2026-000123."
+            },
+            "email": {
+              "type": "string",
+              "format": "email",
+              "maxLength": 200,
+              "description": "Email address the ticket was submitted with."
+            }
+          },
+          "required": [
+            "ticket_number",
+            "email"
+          ],
+          "additionalProperties": false,
+          "$schema": "http://json-schema.org/draft-07/schema#"
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}

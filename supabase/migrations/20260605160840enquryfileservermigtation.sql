@@ -1,0 +1,1 @@
+ALTER TYPE public.enquiry_type ADD VALUE IF NOT EXISTS 'career';
