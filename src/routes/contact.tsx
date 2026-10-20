@@ -6,7 +6,6 @@ import {
   MessageCircle,
   Send,
   Handshake,
-  Headset,
   FlaskConical,
   Briefcase,
   PhoneCall,
@@ -69,7 +68,7 @@ function Contact() {
         inquiry === "business" || inquiry === "partnership"
           ? "business"
           : "contact";
-      const res = await submit({
+      const res = (await submit({
         data: {
           type: type as "contact" | "business",
           subject: `${inquiry} from ${form.name}`,
@@ -79,7 +78,12 @@ function Contact() {
           company: form.company || undefined,
           details: { inquiry_category: inquiry },
         },
-      });
+      })) as unknown as {
+        id: string;
+        enquiry_number: string;
+        status: string;
+        created_at: string;
+      };
       setSubmitted({ enquiry_number: res.enquiry_number });
       toast.success(`Enquiry ${res.enquiry_number} created`);
       setForm({ name: "", email: "", company: "", message: "" });
@@ -103,8 +107,8 @@ function Contact() {
           </h1>
           <p className="mt-6 max-w-2xl mx-auto text-lg text-muted-foreground">
             Share your requirement and we'll come back with a clear view of
-            scope, approach and timeline. Every enquiry gets a unique reference
-            number that you can use to track its status
+            scope, approach and timeline. Every message is logged as a ticket
+            you can track.
           </p>
         </Reveal>
       </section>
@@ -131,7 +135,6 @@ function Contact() {
                       Icon: Briefcase,
                       t: "Project / business enquiry",
                     },
-                    { id: "support", Icon: Headset, t: "Technical support" },
                     { id: "partnership", Icon: Handshake, t: "Partnership" },
                     {
                       id: "research",
@@ -196,7 +199,7 @@ function Contact() {
                   {loading ? "Sending…" : "Send message"}{" "}
                   <Send className="size-4" />
                 </button>
-                
+                <a
                   href={`https://wa.me/${WHATSAPP_NUMBER}`}
                   target="_blank"
                   rel="noreferrer"
@@ -284,8 +287,8 @@ function Contact() {
                 </div>
               </div>
               <p className="mt-4 text-sm text-muted-foreground leading-relaxed">
-                Every enquiry and support request gets a unique reference number. Use
-                it to check status, or sign in to see all your enquiries in one
+                Every enquiry and support request gets a unique ticket ID. Use
+                it to check status, or sign in to see all your tickets in one
                 dashboard.
               </p>
               <Link
@@ -355,7 +358,7 @@ function InfoRow({
           {t}
         </div>
         {href ? (
-          
+          <a
             href={href}
             target={href.startsWith("http") ? "_blank" : undefined}
             rel="noreferrer"

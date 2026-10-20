@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 
 export function useAuth() {
+  const router = useRouter();
   const [user, setUser] = useState<{ id: string; email: string } | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -39,13 +41,14 @@ export function useAuth() {
         setUser(null);
         setIsAdmin(false);
       }
+      router.invalidate();
     });
 
     return () => {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, []);
+  }, [router]);
 
   const signOut = async () => {
     await supabase.auth.signOut();

@@ -9,6 +9,7 @@ const labels: Record<string, string> = {
   blog: "Blog",
   contact: "Contact",
   track: "Support",
+  auth: "Authentication",
 };
 
 export function Breadcrumbs() {

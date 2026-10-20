@@ -40,7 +40,8 @@ const topLinks = [
   { to: "/about", label: "About" },
   { to: "/team", label: "Leadership" },
   { to: "/careers", label: "Careers" },
-  { to: "/track", label: "Support" },
+ // { to: "/track", label: "Support" },
+ // { to: "/raise-ticket", label: "Raise a Ticket" },
   { to: "/contact", label: "Contact" },
 ];
 
@@ -147,6 +148,7 @@ export function Navbar() {
       onMouseLeave={hoverOut}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    
         <div
           className={`glass rounded-2xl pl-4 pr-2 sm:pl-6 sm:pr-3 flex items-center justify-between h-14 transition-shadow ${scrolled ? "shadow-elegant" : ""}`}
         >
@@ -164,7 +166,7 @@ export function Navbar() {
           </Link>
 
           {/* Nav links — centered, single line */}
-          <nav className="hidden [@media(min-width:1200px)]:flex items-center justify-center gap-0.5">
+          <nav className="hidden [@media(min-width:1400px)]:flex items-center justify-center gap-0.5">
             <Link
               to="/"
               activeOptions={{ exact: true }}
@@ -262,7 +264,7 @@ export function Navbar() {
             <button
               onClick={() => setOpen((v) => !v)}
               aria-label="Menu"
-              className="[@media(min-width:1200px)]:hidden size-9 shrink-0 grid place-items-center rounded-lg hover:bg-accent/50"
+              className="[@media(min-width:1400px)]:hidden size-9 shrink-0 grid place-items-center rounded-lg hover:bg-accent/50"
             >
               {open ? <X className="size-5" /> : <Menu className="size-5" />}
             </button>
@@ -308,7 +310,7 @@ export function Navbar() {
               transition={{ duration: 0.18 }}
               onMouseEnter={() => hoverIn(openMenu)}
               onMouseLeave={hoverOut}
-              className="hidden [@media(min-width:1200px)]:block absolute left-4 right-4 sm:left-6 sm:right-6 lg:left-8 lg:right-8 mt-2 z-[10000]"
+              className="hidden [@media(min-width:1400px)]:block absolute left-4 right-4 sm:left-6 sm:right-6 lg:left-8 lg:right-8 mt-2 z-[10000]"
             >
               <div className="mega-menu-glass rounded-2xl p-6 shadow-elegant">
                 {openMenu === "services" && <ServicesPanel />}
@@ -325,7 +327,7 @@ export function Navbar() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
-              className="[@media(min-width:1200px)]:hidden fixed inset-0 -z-10 bg-background/95 backdrop-blur-2xl"
+              className="[@media(min-width:1400px)]:hidden fixed inset-0 -z-10 bg-background/95 backdrop-blur-2xl"
               aria-hidden
             />
           )}
@@ -334,7 +336,7 @@ export function Navbar() {
               initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
-              className="[@media(min-width:1200px)]:hidden mt-2 glass rounded-2xl p-3 flex flex-col max-h-[75vh] overflow-y-auto relative bg-background"
+              className="[@media(min-width:1400px)]:hidden mt-2 glass rounded-2xl p-3 flex flex-col max-h-[75vh] overflow-y-auto relative bg-background"
             >
               {topLinks.map((l) => (
                 <Link

@@ -13,6 +13,7 @@ import appCss from "../styles.css?url";
 import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import { FuturisticBackground } from "@/components/site/FuturisticBackground";
+import { AnimatedBackground } from "@/components/3d/AnimatedBackground";
 import { Breadcrumbs } from "@/components/site/Breadcrumbs";
 import { Toaster } from "@/components/ui/sonner";
 import { ChatWidget } from "@/components/site/ChatWidget";
@@ -154,8 +155,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <div className="relative min-h-screen gradient-bg overflow-x-hidden">
         <FuturisticBackground />
+         <AnimatedBackground />
         <Navbar />
-        <main className="relative pt-24">
+        <main className="relative pt-28">
           <Breadcrumbs />
           <Outlet />
         </main>

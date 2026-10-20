@@ -3,6 +3,11 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
+import { z } from "zod";
+
+// Optional `redirect` search param: where to send the user after a
+// successful sign-in (e.g. back to /raise-ticket). Defaults to /dashboard.
+const searchSchema = z.object({ redirect: z.string().optional() });
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -15,11 +20,14 @@ export const Route = createFileRoute("/auth")({
       },
     ],
   }),
+  validateSearch: (s) => searchSchema.parse(s),
   component: AuthPage,
 });
 
 function AuthPage() {
   const navigate = useNavigate();
+  const { redirect } = Route.useSearch();
+  const dest = redirect && redirect.startsWith("/") ? redirect : "/dashboard";
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,8 +37,10 @@ function AuthPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
-      if (data.session) navigate({ to: "/dashboard" });
+      if (data.session) navigate({ to: dest });
     });
+    // Only run once on mount — `dest` is derived from the initial search param.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [navigate]);
 
   const submit = async (e: React.FormEvent) => {
@@ -43,7 +53,7 @@ function AuthPage() {
           password,
           options: {
             data: { full_name: name },
-            emailRedirectTo: window.location.origin + "/dashboard",
+            emailRedirectTo: window.location.origin + dest,
           },
         });
         if (error) throw error;
@@ -58,7 +68,7 @@ function AuthPage() {
         });
         if (error) throw error;
         toast.success("Signed in");
-        navigate({ to: "/dashboard" });
+        navigate({ to: dest });
       }
     } catch (err: any) {
       toast.error(err.message ?? "Authentication failed");
@@ -132,6 +142,16 @@ function AuthPage() {
               </button>
             </div>
           </div>
+          {mode === "signin" && (
+            <div className="text-right -mt-1">
+              <Link
+                to="/forgot-password"
+                className="text-xs text-primary hover:underline"
+              >
+                Forgot password?
+              </Link>
+            </div>
+          )}
           <button
             disabled={loading}
             className="w-full rounded-xl animated-gradient text-white px-6 py-3 text-sm font-medium shadow-elegant hover:opacity-90 transition disabled:opacity-60"

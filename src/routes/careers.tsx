@@ -1,5 +1,4 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { MapPin, Briefcase, ArrowRight } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { Reveal } from "@/components/site/Reveal";
 import { COMPANY } from "@/lib/site-data";
 
@@ -23,51 +22,6 @@ export const Route = createFileRoute("/careers")({
   }),
   component: Careers,
 });
-
-const roles = [
-  {
-    t: "Software Developer",
-    team: "Software Development",
-    loc: "Gorakhpur / Remote",
-    type: "Full-time",
-  },
-  {
-    t: "Web & Application Developer",
-    team: "Web & Application Development",
-    loc: "Gorakhpur / Remote",
-    type: "Full-time",
-  },
-  {
-    t: "AI & Data Associate",
-    team: "AI & Data Solutions",
-    loc: "Gorakhpur / Remote",
-    type: "Full-time",
-  },
-  {
-    t: "Automation Engineer",
-    team: "Automation Solutions",
-    loc: "Gorakhpur / Remote",
-    type: "Full-time",
-  },
-  {
-    t: "Graphic Designer",
-    team: "Graphic Design",
-    loc: "Gorakhpur / Remote",
-    type: "Full-time",
-  },
-  {
-    t: "Technical Writer",
-    team: "Research & Technical Writing",
-    loc: "Gorakhpur / Remote",
-    type: "Full-time",
-  },
-  {
-    t: "IT Support Executive",
-    team: "IT Support & Service Desk",
-    loc: "Gorakhpur",
-    type: "Full-time",
-  },
-];
 
 const values = [
   {
@@ -114,46 +68,15 @@ function Careers() {
       </section>
 
       <section className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 py-16">
-        <Reveal className="text-center max-w-xl mx-auto">
-          <p className="text-sm font-medium text-primary">Open roles</p>
-          <h2 className="mt-2 text-4xl font-display font-bold">
-            Where we're hiring
+        <Reveal className="text-center max-w-xl mx-auto glass rounded-2xl p-10">
+          <h2 className="text-3xl font-display font-bold">
+            No Current Openings
           </h2>
           <p className="mt-3 text-muted-foreground">
-            Roles map to our service areas. Don't see an exact fit? Apply anyway
-            and tell us what you do.
+            We will notify you soon when new hiring opportunities become
+            available.
           </p>
         </Reveal>
-        <div className="mt-10 space-y-3">
-          {roles.map((r, i) => (
-            <Reveal key={r.t} delay={i * 0.03}>
-              <Link
-                to="/apply"
-                search={{ role: r.t }}
-                className="group block glass rounded-2xl p-5 hover:shadow-elegant transition"
-              >
-                <div className="flex flex-wrap items-center gap-4">
-                  <div className="size-10 grid place-items-center rounded-xl bg-accent text-primary">
-                    <Briefcase className="size-5" />
-                  </div>
-                  <div className="flex-1 min-w-[200px]">
-                    <div className="font-display font-semibold">{r.t}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {r.team}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <MapPin className="size-3.5" /> {r.loc}
-                  </div>
-                  <span className="text-xs px-2 py-1 rounded-md border border-border">
-                    {r.type}
-                  </span>
-                  <ArrowRight className="size-4 text-primary group-hover:translate-x-0.5 transition" />
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </div>
       </section>
     </>
   );

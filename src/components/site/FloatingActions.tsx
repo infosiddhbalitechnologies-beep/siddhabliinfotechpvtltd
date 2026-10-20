@@ -9,7 +9,7 @@ import {
   Loader2,
   CheckCircle2,
 } from "lucide-react";
-import { submitTicket } from "@/lib/tickets.functions";
+import { submitEnquiry } from "@/lib/tickets.functions";
 import { cn } from "@/lib/utils";
 
 export const WHATSAPP_NUMBER = "918423675645";
@@ -112,7 +112,11 @@ function FabItem({
 }
 
 function RequestCallModal({ onClose }: { onClose: () => void }) {
-  const submit = useServerFn(submitTicket);
+  // "Request a Call" is a public message/enquiry action, not an IT support
+  // ticket — anyone (guest or signed in) can use it, so it must go through
+  // submitEnquiry (no auth required) rather than submitTicket (which is
+  // reserved for authenticated IT support tickets only).
+  const submit = useServerFn(submitEnquiry);
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -138,7 +142,7 @@ function RequestCallModal({ onClose }: { onClose: () => void }) {
     try {
       await submit({
         data: {
-          type: "enquiry" as const,
+          type: "call_back" as const,
           subject: `Call request from ${form.name}`,
           message: form.message?.trim()
             ? form.message
